@@ -6,11 +6,11 @@ import UploadPage from '../pages/UploadPage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <ProductList />,
+    element: <ProductList key="productList" />,
   },
   {
     path: '/uploadProduct',
-    element: <UploadPage />,
+    element: <UploadPage key="uploadPage" />,
   },
 ]);
 
