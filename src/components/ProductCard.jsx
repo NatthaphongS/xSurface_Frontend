@@ -66,13 +66,14 @@ const ProductCost = styled.div`
   color: #e13b30;
 `;
 
-const images = ['1.jpg', '2.jpg', '3.jpg'];
+// const images = ['1.jpg', '2.jpg', '3.jpg'];
 
-export default function ProductCard() {
+export default function ProductCard({ product }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHover, setIsHover] = useState(false);
+  const images = product.images;
   useEffect(() => {
-    if (isHover) {
+    if (isHover && images.length > 1) {
       setImageIndex(1);
     } else setImageIndex(0);
   }, [isHover]);
@@ -82,7 +83,7 @@ export default function ProductCard() {
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     };
-    if (isHover) {
+    if (isHover && images.length > 1) {
       const interval = setInterval(updateImage, 2000);
       return () => {
         clearInterval(interval);
@@ -104,10 +105,12 @@ export default function ProductCard() {
       </ImageContainer>
       <DetailContainer>
         <ProductDetail>
-          <h6>Product Name</h6>
-          <p>Code</p>
+          <h6>{product.name}</h6>
+          <p>{product.code}</p>
         </ProductDetail>
-        <ProductCost>฿{new Intl.NumberFormat().format(1000)}</ProductCost>
+        <ProductCost>
+          ฿{new Intl.NumberFormat().format(product.price.$numberDecimal)}
+        </ProductCost>
       </DetailContainer>
     </Card>
   );

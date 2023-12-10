@@ -3,6 +3,8 @@ import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';
 import { Header, MainContainer } from '../styles/styles';
 import { motion as m } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const SearchBox = styled.div`
   height: 56px;
@@ -33,30 +35,55 @@ const ProductLists = styled.div`
 `;
 
 export default function ProductList() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('');
+  useEffect(() => {
+    axios
+      .get('/product')
+      .then((res) => setProducts(res.data.products))
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  const handelSearch = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  // console.log(isLoading);
   return (
-    <m.div
-      initial={{ x: '100%' }}
-      animate={{ x: 0 }}
-      exit={{ x: '-100%' }}
-      transition={{ duration: 0.5 }}
-    >
-      <MainContainer>
-        <Header>
-          <p>Product List</p>
-          <Link to="/uploadProduct">
-            Create Product <span>&gt;</span>
-          </Link>
-        </Header>
-        <SearchBox>
-          <img src="/search.png" />
-          <input type="text" placeholder="Name,Catalogue,Code" />
-        </SearchBox>
-        <ProductLists>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </ProductLists>
-      </MainContainer>
-    </m.div>
+    <>
+      {!isLoading && (
+        <m.div
+          initial={{ x: '100%' }}
+          animate={{ x: 0 }}
+          exit={{ x: '-100%' }}
+          transition={{ duration: 0.8 }}
+        >
+          <MainContainer>
+            <Header>
+              <p>Product List</p>
+              <Link to="/uploadProduct">
+                Create Product <span>&gt;</span>
+              </Link>
+            </Header>
+            <SearchBox>
+              <img src="/search.png" />
+              <input
+                type="text"
+                placeholder="Name,Catalogue,Code"
+                value={searchValue}
+                onChange={handelSearch}
+              />
+            </SearchBox>
+            <ProductLists>
+              {products.map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))}
+            </ProductLists>
+          </MainContainer>
+        </m.div>
+      )}
+    </>
   );
 }

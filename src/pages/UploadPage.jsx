@@ -4,8 +4,10 @@ import { motion as m } from 'framer-motion';
 import { styled } from 'styled-components';
 import { useState } from 'react';
 import UploadImage from '../components/UploadImage';
+import axios from '../config/axios';
+import { toast } from 'react-toastify';
 
-const UploadFormContainer = styled.div`
+const UploadFormContainer = styled.form`
   width: 80%;
   margin: 0 auto;
   label {
@@ -29,6 +31,8 @@ const UploadFormContainer = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   width: fit-content;
   gap: 20px;
   margin: 48px auto;
@@ -54,6 +58,58 @@ export default function UploadPage() {
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
+
+  const handelSubmitForm = async (e) => {
+    try {
+      e.preventDefault();
+      if (
+        input.name == '' ||
+        input.code == '' ||
+        input.price == '' ||
+        Array.from(input.images).length == 0
+      ) {
+        return toast.error('Please provide all data');
+      }
+      const formData = new FormData();
+      input.price = +input.price;
+      input.images = Array.from(input.images);
+      console.log(input);
+      input.price = +input.price;
+      input.images.forEach((image) => {
+        formData.append('images[]', image);
+      });
+
+      for (let key in input) {
+        if (input[key]) {
+          formData.append(key, input[key]);
+        }
+      }
+      const id = toast.loading(`${input.name} is uploading`);
+      const res = await axios.post('/product/create', formData);
+      toast.update(id, {
+        render: `${input.name} Upload success`,
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
+      console.log(res);
+      setInput({
+        images: {},
+        name: '',
+        code: '',
+        price: '',
+      });
+    } catch (error) {
+      console.log(error);
+      toast.update(id, {
+        render: `${input.name} Upload fail`,
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
   return (
     <m.div
       initial={{ x: '100%' }}
@@ -68,7 +124,7 @@ export default function UploadPage() {
             Product List <span>&gt;</span>
           </Link>
         </Header>
-        <UploadFormContainer>
+        <UploadFormContainer onSubmit={handelSubmitForm}>
           <label>Upload image</label>
           <UploadImage input={input} setInput={setInput} />
           <label>Product name</label>
@@ -93,7 +149,20 @@ export default function UploadPage() {
             value={input.price}
           />
           <ButtonContainer>
-            <Button $primary={false}>ยกเลิก</Button>
+            <Button
+              type="button"
+              onClick={() =>
+                setInput({
+                  images: {},
+                  name: '',
+                  code: '',
+                  price: '',
+                })
+              }
+              $primary={false}
+            >
+              ยกเลิก
+            </Button>
             <Button $primary={true}>ยืนยัน</Button>
           </ButtonContainer>
         </UploadFormContainer>

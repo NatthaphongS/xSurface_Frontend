@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { styled } from 'styled-components';
 
 const UploadArea = styled.div`
-  height: 350px;
+  min-height: 350px;
   width: 100%;
   border: 1px dashed #d9d9d9;
   border-radius: 24px;
@@ -14,6 +14,7 @@ const UploadArea = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  text-align: center;
   div {
     font-size: 14px;
     color: #6c6c70;
@@ -102,6 +103,7 @@ export default function UploadImage({ input, setInput }) {
       <input
         type="file"
         name="images"
+        accept=".jpg,png"
         multiple
         onChange={(e) => {
           if (e.target.files.length > 6) {
