@@ -5,6 +5,7 @@ import { Header, MainContainer } from '../styles/styles';
 import { motion as m } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../components/loading/Loading';
 
 const SearchBox = styled.div`
   height: 56px;
@@ -36,6 +37,7 @@ const ProductLists = styled.div`
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+  const [showProduct, setShowProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
@@ -46,44 +48,54 @@ export default function ProductList() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  useEffect(() => {
+    let cloneProduct = [...products];
+    if (searchValue) {
+      cloneProduct = cloneProduct.filter((el) => {
+        if (
+          el.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+          el.code.toLowerCase().includes(searchValue.toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+    }
+    setShowProduct(cloneProduct);
+  }, [searchValue]);
+
   const handelSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
   // console.log(isLoading);
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
-      {!isLoading && (
-        <m.div
-          initial={{ x: '100%' }}
-          animate={{ x: 0 }}
-          exit={{ x: '-100%' }}
-          transition={{ duration: 0.8 }}
-        >
-          <MainContainer>
-            <Header>
-              <p>Product List</p>
-              <Link to="/uploadProduct">
-                Create Product <span>&gt;</span>
-              </Link>
-            </Header>
-            <SearchBox>
-              <img src="/search.png" />
-              <input
-                type="text"
-                placeholder="Name,Catalogue,Code"
-                value={searchValue}
-                onChange={handelSearch}
-              />
-            </SearchBox>
-            <ProductLists>
-              {products.map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
-            </ProductLists>
-          </MainContainer>
-        </m.div>
-      )}
+      <MainContainer>
+        <Header>
+          <p>Product List</p>
+          <Link to="/uploadProduct">
+            Create Product <span>&gt;</span>
+          </Link>
+        </Header>
+        <SearchBox>
+          <img src="/search.png" />
+          <input
+            type="text"
+            placeholder="Name,Catalogue,Code"
+            value={searchValue}
+            onChange={handelSearch}
+          />
+        </SearchBox>
+        <ProductLists>
+          {showProduct.map((product, index) => (
+            <ProductCard key={index} product={product} />
+          ))}
+        </ProductLists>
+      </MainContainer>
     </>
   );
 }

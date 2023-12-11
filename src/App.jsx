@@ -5,11 +5,7 @@ function App() {
   return (
     <>
       <Route />
-      <ToastContainer
-        position="bottom-center"
-        autoClose={3000}
-        theme="colored"
-      />
+      <ToastContainer position="bottom-left" autoClose={3000} theme="colored" />
     </>
   );
 }

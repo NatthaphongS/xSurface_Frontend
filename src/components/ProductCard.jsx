@@ -66,30 +66,27 @@ const ProductCost = styled.div`
   color: #e13b30;
 `;
 
-// const images = ['1.jpg', '2.jpg', '3.jpg'];
-
 export default function ProductCard({ product }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHover, setIsHover] = useState(false);
   const images = product.images;
+
+  const updateImage = () => {
+    setImageIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   useEffect(() => {
     if (isHover && images.length > 1) {
       setImageIndex(1);
-    } else setImageIndex(0);
-  }, [isHover]);
-  useEffect(() => {
-    const updateImage = () => {
-      setImageIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    };
-    if (isHover && images.length > 1) {
       const interval = setInterval(updateImage, 2000);
-      return () => {
-        clearInterval(interval);
-      };
+      return () => clearInterval(interval);
+    } else {
+      setImageIndex(0);
     }
-  }, [imageIndex]);
+  }, [isHover, images]);
+
   return (
     <Card
       onMouseEnter={() => setIsHover(true)}
