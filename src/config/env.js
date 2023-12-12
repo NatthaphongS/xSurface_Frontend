@@ -1,1 +1,1 @@
-export const BACKEND_URL = 'https://nsxsurfaceserver.vercel.app/';
+export const BACKEND_URL = 'http://localhost:8000';

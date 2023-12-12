@@ -33,6 +33,7 @@ const ProductLists = styled.div`
   column-gap: 24px;
   padding-top: 40px;
   flex-wrap: wrap;
+  margin-bottom: 50px;
 `;
 
 export default function ProductList() {
