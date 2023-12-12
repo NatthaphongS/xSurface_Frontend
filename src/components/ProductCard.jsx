@@ -93,7 +93,7 @@ export default function ProductCard({ product }) {
       onMouseLeave={() => setIsHover(false)}
     >
       <ImageContainer>
-        <img src={images[imageIndex]} />
+        <img src={images[imageIndex]} loading="lazy" />
         <DotImageContainer>
           {images.map((el, index) => (
             <DotImage key={index} $isActive={index === imageIndex} />
