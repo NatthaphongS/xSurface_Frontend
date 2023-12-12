@@ -62,7 +62,7 @@ export default function ProductList() {
       });
     }
     setShowProduct(cloneProduct);
-  }, [searchValue]);
+  }, [searchValue, products]);
 
   const handelSearch = (e) => {
     setSearchValue(e.target.value);
