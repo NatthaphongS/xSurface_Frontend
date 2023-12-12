@@ -60,8 +60,9 @@ export default function UploadPage() {
   };
 
   const handelSubmitForm = async (e) => {
+    e.preventDefault();
+    const id = toast.loading(`${input.name} is uploading`);
     try {
-      e.preventDefault();
       if (
         input.name == '' ||
         input.code == '' ||
@@ -84,7 +85,6 @@ export default function UploadPage() {
           formData.append(key, input[key]);
         }
       }
-      const id = toast.loading(`${input.name} is uploading`);
       const res = await axios.post('/product/create', formData);
       toast.update(id, {
         render: `${input.name} Upload success`,
