@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 export const MainContainer = styled.div`
+  max-width: 1440px;
   width: 95%;
   margin: 0 auto;
 `;

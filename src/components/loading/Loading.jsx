@@ -3,12 +3,14 @@ import Lottie from 'react-lottie';
 import styled from 'styled-components';
 
 const BackGround = styled.div`
+  position: absolute;
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f2f2f2;
+  margin: 0 auto;
 `;
 
 const defaultOptions = {
