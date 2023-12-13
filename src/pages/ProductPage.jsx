@@ -88,9 +88,6 @@ export default function ProductPage() {
       });
   }, []);
 
-  const selectImage = () => {};
-
-  // console.log(product);
   if (isLoading) {
     return <Loading />;
   }
