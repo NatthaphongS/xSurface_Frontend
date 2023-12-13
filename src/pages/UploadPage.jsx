@@ -96,6 +96,7 @@ export default function UploadPage() {
     }
   };
 
+  resize;
   return (
     <m.div
       initial={{ x: '100%' }}
