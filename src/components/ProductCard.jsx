@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 const Card = styled.div`
@@ -9,6 +10,7 @@ const Card = styled.div`
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.4);
   overflow: hidden;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
   &:hover {
     transform: scale(1.05);
   }
@@ -69,6 +71,9 @@ const ProductCost = styled.div`
 export default function ProductCard({ product }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHover, setIsHover] = useState(false);
+
+  const navigate = useNavigate();
+
   const images = product.images;
 
   const updateImage = () => {
@@ -91,6 +96,9 @@ export default function ProductCard({ product }) {
     <Card
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      onClick={() => {
+        navigate(`/product/${product._id}`);
+      }}
     >
       <ImageContainer>
         <img src={images[imageIndex]} loading="lazy" />

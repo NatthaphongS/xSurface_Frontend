@@ -31,3 +31,28 @@ export const Header = styled.div`
     }
   }
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: fit-content;
+  gap: 20px;
+  margin: ${({ $small }) => ($small ? '20px auto' : '48px auto')};
+`;
+
+export const Button = styled.button`
+  color: ${({ $primary }) => ($primary ? 'white' : '#E13B30')};
+  background-color: ${({ $primary }) => ($primary ? '#E13B30' : 'white')};
+  padding: ${({ $small }) => ($small ? '10px 30px' : '16px 72px')};
+  font-size: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 24px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  &:active {
+    scale: 0.95;
+  }
+`;

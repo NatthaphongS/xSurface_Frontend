@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Header, MainContainer } from '../styles/styles';
+import {
+  Header,
+  MainContainer,
+  ButtonContainer,
+  Button,
+} from '../styles/styles';
 import { motion as m } from 'framer-motion';
 import { styled } from 'styled-components';
 import { useState } from 'react';
@@ -27,25 +32,6 @@ const UploadFormContainer = styled.form`
       color: #d9d9d9;
     }
   }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: fit-content;
-  gap: 20px;
-  margin: 48px auto;
-`;
-
-const Button = styled.button`
-  color: ${({ $primary }) => ($primary ? 'white' : '#E13B30')};
-  background-color: ${({ $primary }) => ($primary ? '#E13B30' : 'white')};
-  padding: 16px 72px;
-  font-size: 16px;
-  border: 1px solid #d9d9d9;
-  border-radius: 24px;
-  cursor: pointer;
 `;
 
 export default function UploadPage() {
