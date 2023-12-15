@@ -29,6 +29,7 @@ const SearchBox = styled.div`
 
 const ProductLists = styled.div`
   display: flex;
+  justify-content: center;
   row-gap: 40px;
   column-gap: 24px;
   padding-top: 40px;
